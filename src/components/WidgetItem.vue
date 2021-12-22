@@ -1,148 +1,153 @@
 <template>
-	<div
-		class="item"
-		@mousemove="itemResize($event, 'bottom')"
-		@mouseleave="itemResizeLeave"
-	>
-		<div
-			class="itemContent"
-			:style="{
-				width: this.itemInfo.width + 'px',
-				height: this.itemInfo.heigth + 'px',
-			}"
-		>
-			{{ this.itemInfo.name }}
-		</div>
-		<p class="itemCtrl topCtrl" @mousedown="itemResizeClick"></p>
-		<p class="itemCtrl btmCtrl" @mousedown="itemResizeClick"></p>
-		<p class="itemCtrl leftCtrl" @mousedown="itemResizeClick"></p>
-		<p class="itemCtrl rightCtrl" @mousedown="itemResizeClick"></p>
-	</div>
+  <div class="item">
+    <div
+      class="itemContent"
+      :style="{
+        width: this.itemInfo.width + 'px',
+        height: this.itemInfo.heigth + 'px',
+      }"
+    >
+      {{ this.itemInfo.name }}
+    </div>
+    <p
+      class="itemCtrl topCtrl"
+      @mousedown="itemResizeDown($event, 'top')"
+      @mouseup="itemResizeUp"
+      @mouseout="itemResizeUp"
+    ></p>
+
+    <p
+      class="itemCtrl btmCtrl"
+      @mousedown="itemResizeDown($event, 'bottom')"
+      @mouseup="itemResizeUp"
+      @mouseout="itemResizeUp"
+    ></p>
+
+    <p
+      class="itemCtrl leftCtrl"
+      @mousedown="itemResizeDown($event, 'left')"
+      @mouseup="itemResizeUp"
+      @mouseout="itemResizeUp"
+    ></p>
+
+    <p
+      class="itemCtrl rightCtrl"
+      @mousedown="itemResizeDown($event, 'right')"
+      @mouseup="itemResizeUp"
+      @mouseout="itemResizeUp"
+    ></p>
+  </div>
 </template>
 
 <script>
-	export default {
-		props: {
-			itemInfo: Object,
-		},
-		data() {
-			return {
-				clicked: false,
-			};
-		},
-		methods: {
-			itemResizeClick({ target }) {
-				const item = target.parentNode;
-				this.clicked = true;
-				item.draggable = false;
-			},
-			itemResize(
-				{ currentTarget, clientX, clientY, offsetX, offsetY },
-				direction
-			) {
-				if (!this.clicked) return;
+export default {
+  props: {
+    itemInfo: Object,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    itemResizeDown({ target }, direction) {
+      const item = target.parentNode;
+      const data = {
+        clicked: true,
+        direction: direction,
+        resizeItem: item,
+      };
 
-				//const item = target.parentNode;
+      this.$store.dispatch("itemResizeClick", data);
 
-				console.log(direction);
+      item.draggable = false;
+    },
+    itemResizeUp({ currentTarget }) {
+      currentTarget.parentNode.draggable = true;
+      const data = {
+        clicked: false,
+        direction: "",
+        resizeItem: "",
+      };
 
-				switch (direction) {
-					case 'top':
-						console.log('top입니당');
-						break;
-
-					case 'bottom':
-						//console.log('bottom입니당');
-
-						currentTarget.style.height = `${
-							clientY - currentTarget.offsetHeight + offsetY
-							// currentTarget.offsetHeight + offsetY
-						}px`;
-						break;
-
-					case 'left':
-						console.log('left입니당');
-						break;
-
-					case 'right':
-						console.log('right입니당');
-						break;
-
-					default:
-						console.log('direction이 없습니다.');
-						break;
-				}
-			},
-			itemResizeLeave({ currentTarget }) {
-				currentTarget.draggable = true;
-				this.clicked = false;
-			},
-		},
-	};
+      this.$store.dispatch("itemResizeLeave", data);
+    },
+  },
+};
 </script>
 
 <style scoped>
-	.item {
-		position: relative;
-		background: #666;
-		color: #fff;
-		user-select: none;
-		transition: 0.3s;
-		cursor: default;
+.item {
+  position: relative;
+  background: #666;
+  color: #fff;
+  user-select: none;
+  cursor: default;
+  margin: 10px;
+  /* resize: both; */
+}
+.itemContent {
+  padding: 20px;
+}
+.item.select {
+  animation: item 0.3s forwards;
+}
+.itemCtrl {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  transition: 0.2s;
+  opacity: 0;
+}
+.itemCtrl::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: "";
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: rgba(0, 0, 0, 0.5);
+}
+.item:hover .itemCtrl {
+  opacity: 1;
+}
+.topCtrl {
+  width: 100%;
+  height: 24px;
+  top: -12px;
+  left: 0;
+  cursor: n-resize;
+}
+.btmCtrl {
+  width: 100%;
+  height: 24px;
+  bottom: -12px;
+  left: 0;
+  cursor: n-resize;
+}
+.leftCtrl {
+  width: 24px;
+  height: 100%;
+  left: -12px;
+  top: 0;
+  cursor: e-resize;
+}
+.rightCtrl {
+  width: 24px;
+  height: 100%;
+  right: -12px;
+  top: 0;
+  cursor: e-resize;
+}
 
-		/* resize: both; */
-	}
-	.itemContent {
-		padding: 20px;
-	}
-	.item.select {
-		animation: item 0.3s forwards;
-	}
-	.itemCtrl {
-		position: absolute;
-		width: 14px;
-		height: 14px;
-		border-radius: 50%;
-		border: 2px solid #fff;
-		background: rgba(0, 0, 0, 0.5);
-		transition: 0.2s;
-		/* opacity: 0;/ */
-	}
-	.item:hover .itemCtrl {
-		opacity: 1;
-	}
-	.topCtrl {
-		top: -7px;
-		left: 50%;
-		margin-left: -7px;
-		cursor: n-resize;
-	}
-	.btmCtrl {
-		bottom: -7px;
-		left: 50%;
-		margin-left: -7px;
-		cursor: n-resize;
-	}
-	.leftCtrl {
-		left: -8px;
-		top: 50%;
-		margin-top: -8px;
-		cursor: e-resize;
-	}
-	.rightCtrl {
-		right: -8px;
-		top: 50%;
-		margin-top: -8px;
-		cursor: e-resize;
-	}
-
-	@keyframes item {
-		90% {
-			opacity: 0;
-		}
-		100% {
-			width: 0;
-			padding: 0;
-		}
-	}
+@keyframes item {
+  90% {
+    opacity: 0;
+  }
+  100% {
+    width: 0;
+    padding: 0;
+  }
+}
 </style>
