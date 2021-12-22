@@ -22,10 +22,17 @@
 
 <style scoped>
 	.item {
+		position: absolute;
 		background: #666;
 		color: #fff;
 		border-radius: 10px;
 		margin: 10px;
 		padding: 20px;
+		user-select: none;
+		cursor: default;
+	}
+	.item.select {
+		cursor: move;
+		z-index: unset;
 	}
 </style>

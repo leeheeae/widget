@@ -25,6 +25,10 @@
 					width: item.width,
 					heigth: item.heigth,
 				}"
+				@mousedown="itemMounsedown"
+				@mouseup="itemMounseLeaveAndUp"
+				@mouseleave="itemMounseLeaveAndUp"
+				@mousemove="itemMounsemove"
 			></widget-item>
 		</div>
 	</div>
@@ -41,6 +45,7 @@
 			return {
 				itemW: undefined,
 				itemH: undefined,
+				mouseClicked: false,
 			};
 		},
 		methods: {
@@ -52,6 +57,32 @@
 					heigth: this.itemH,
 				};
 				this.$store.dispatch('addWidgetItem', itemInfo);
+
+				//초기화
+				this.itemW = '';
+				this.itemH = '';
+			},
+
+			//드래그
+			itemMounsedown(e) {
+				const thisItem = e.currentTarget;
+				this.mouseClicked = true;
+				//console.log('누름', thisItem, this.mouseClicked);
+				thisItem.classList.add('select');
+			},
+			itemMounseLeaveAndUp(e) {
+				const thisItem = e.currentTarget;
+				this.mouseClicked = false;
+				thisItem.classList.add('remove');
+			},
+			itemMounsemove({ clientX, clientY, currentTarget }) {
+				if (this.mouseClicked === null || !this.mouseClicked) return;
+				let itemPos = currentTarget.getBoundingClientRect();
+				let itemX = itemPos.width / 1.5;
+				let itemY = itemPos.height / 1.5;
+
+				currentTarget.style.left = clientX - itemX + 'px';
+				currentTarget.style.top = clientY - itemY + 'px';
 			},
 		},
 	};
@@ -81,6 +112,7 @@
 		border: 1px solid #ddd;
 		border-radius: 3px;
 		padding: 10px;
+		cursor: default;
 	}
 	.createBtn {
 		width: 100px;
