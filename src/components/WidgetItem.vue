@@ -25,14 +25,15 @@
 		/* position: absolute; */
 		background: #666;
 		color: #fff;
-		border-radius: 10px;
 		margin: 10px;
 		padding: 20px;
 		user-select: none;
+		transition: 0.3s;
+		overflow: hidden;
 		cursor: default;
 	}
 	.item.select {
+		opacity: 0.2;
 		cursor: move;
-		z-index: unset;
 	}
 </style>

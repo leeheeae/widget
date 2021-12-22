@@ -73,8 +73,8 @@
 			},
 			itemDragOver({ currentTarget, dataTransfer }) {
 				if (this.dragEl !== currentTarget) return;
+				currentTarget.style.opacity = '0.5';
 				dataTransfer.dropEffect = 'move';
-				this.dragEl.classList.add('select');
 				return false;
 			},
 			itemHandleDrop({ currentTarget, dataTransfer, stopPropagation }) {
@@ -85,7 +85,7 @@
 				return false;
 			},
 			itemDragEnd({ currentTarget }) {
-				this.dragEl.classList.remove('select');
+				currentTarget.style.opacity = '1';
 			},
 		},
 	};
@@ -136,7 +136,6 @@
 
 	/* 추가된 위젯 리스트 */
 	.widgetList {
-		width: 100%;
 		display: flex;
 		align-items: flex-start;
 		flex-wrap: wrap;
