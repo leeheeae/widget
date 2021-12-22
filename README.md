@@ -30,3 +30,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 [ ] 생성한 위젯 드래그로 이동하여 순서 변경
 [ ] 위젯 사이즈 조절
 [ ] 부드럽게 위젯 위치 찾아가기
+
+1. 위젯 생성
+
+-   Vuex를 이용하여 생성된 위젯 관리하기
+-   테스트용 데이터 [{name: "",width: "", heigth: "", }]

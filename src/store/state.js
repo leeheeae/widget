@@ -2,8 +2,8 @@ export default {
 	widgetItemList: [
 		{
 			name: 'ss',
-			width: 0,
-			heigth: 0,
+			width: 150,
+			heigth: 150,
 		},
 	],
 };

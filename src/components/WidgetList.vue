@@ -17,11 +17,15 @@
 			</button>
 		</div>
 		<div class="widgetList">
-			<!-- <widget-item
+			<widget-item
 				v-for="item in this.$store.state.widgetItemList"
 				:key="item"
-				:size="{ width: itemW, heigth: itemH }"
-			></widget-item> -->
+				:itemInfo="{
+					name: item.name,
+					width: item.width,
+					heigth: item.heigth,
+				}"
+			></widget-item>
 		</div>
 	</div>
 </template>
@@ -98,6 +102,7 @@
 	/* 추가된 위젯 리스트 */
 	.widgetList {
 		display: flex;
+		align-items: flex-start;
 		flex-wrap: wrap;
 		margin-top: 30px;
 	}
