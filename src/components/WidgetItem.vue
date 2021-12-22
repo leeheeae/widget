@@ -22,7 +22,7 @@
 
 <style scoped>
 	.item {
-		position: absolute;
+		/* position: absolute; */
 		background: #666;
 		color: #fff;
 		border-radius: 10px;

@@ -4,12 +4,12 @@
 		<div class="inputBox">
 			<div class="itemW">
 				<h4>Width</h4>
-				<input type="number" v-model="itemW" placeholder="기준은 px" />
+				<input type="text" v-model="itemW" placeholder="기준은 px" />
 			</div>
 
 			<div class="itemW">
 				<h4>Heigth</h4>
-				<input type="number" v-model="itemH" placeholder="기준은 px" />
+				<input type="text" v-model="itemH" placeholder="기준은 px" />
 			</div>
 
 			<button class="createBtn" @click="this.addItem">
@@ -25,12 +25,16 @@
 					width: item.width,
 					heigth: item.heigth,
 				}"
-				draggable="true"
-				@dragstart="itemDragStart"
-				@dragover.prevent="itemDragOver"
-				@drop.stop="itemHandleDrop"
-				@dragend="itemDragEnd"
+				@mousedown="itemMounsedown"
+				@mouseup="itemMounseLeaveAndUp"
+				@mouseleave="itemMounseLeaveAndUp"
+				@mousemove="itemMounsemove"
 			></widget-item>
+			<!-- 
+				@mousedown="itemMounsedown"
+				@mouseup="itemMounseLeaveAndUp"
+				@mouseleave="itemMounseLeaveAndUp"
+				@mousemove="itemMounsemove" -->
 		</div>
 	</div>
 </template>
@@ -46,7 +50,7 @@
 			return {
 				itemW: undefined,
 				itemH: undefined,
-				dragEl: null,
+				mouseClicked: false,
 			};
 		},
 		methods: {
@@ -64,29 +68,26 @@
 				this.itemH = '';
 			},
 
-			//드래그블
-			itemDragStart({ currentTarget, dataTransfer }) {
-				currentTarget.style.border = '3px dashed #c4cad3';
+			//드래그
+			itemMounsedown(e) {
+				const thisItem = e.currentTarget;
+				this.mouseClicked = true;
+				//console.log('누름', thisItem, this.mouseClicked);
+				thisItem.classList.add('select');
+			},
+			itemMounseLeaveAndUp(e) {
+				const thisItem = e.currentTarget;
+				this.mouseClicked = false;
+				thisItem.classList.remove('select');
+			},
+			itemMounsemove({ clientX, clientY, currentTarget }) {
+				if (this.mouseClicked === null || !this.mouseClicked) return;
 
-				this.dragEl = currentTarget;
-				dataTransfer.effectAllowed = 'move';
-				dataTransfer.setData('text/html', this.dragEl.innerHTML);
-				console.log('시작');
-			},
-			itemDragOver({ dataTransfer }) {
-				dataTransfer.dropEffect = 'move';
-				console.log('오버');
-				return false;
-			},
-			itemHandleDrop({ currentTarget, dataTransfer, stopPropagation }) {
-				if (this.dragEl != currentTarget) {
-					this.dragEl.innerHTML = currentTarget.innerHTML;
-					currentTarget.innerHTML = dataTransfer.getData('text/html');
-				}
-				return false;
-			},
-			itemDragEnd({ currentTarget }) {
-				currentTarget.style.border = 0;
+				let itemPos = currentTarget.getBoundingClientRect();
+				let itemX = itemPos.width / 1.5;
+				let itemY = itemPos.height / 1.5;
+				currentTarget.style.left = clientX - itemX + 'px';
+				currentTarget.style.top = clientY - itemY + 'px';
 			},
 		},
 	};
