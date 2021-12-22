@@ -25,6 +25,9 @@
 				@dragover.prevent="itemDragOver"
 				@drop.stop="itemHandleDrop"
 				@dragend="itemDragEnd"
+				@dragenter="itemDragenter"
+				@mouseenter="itemMouseenter"
+				@mouseup="itemMouseup"
 				:itemInfo="{
 					name: item.name,
 					width: item.width,
@@ -74,7 +77,6 @@
 			itemDragOver({ currentTarget, dataTransfer }) {
 				if (this.dragEl !== currentTarget) return;
 				dataTransfer.dropEffect = 'move';
-				this.dragEl.classList.add('select');
 				return false;
 			},
 			itemHandleDrop({ currentTarget, dataTransfer, stopPropagation }) {
@@ -84,9 +86,23 @@
 				}
 				return false;
 			},
-			itemDragEnd({ currentTarget }) {
+			itemDragEnd() {
 				this.dragEl.classList.remove('select');
 			},
+			itemDragenter() {
+				this.dragEl.classList.add('select');
+			},
+
+			//사이즈조절
+			itemMouseenter({ clientX, clientY, offsetX, offsetY }) {
+				//console.log(clientX, clientY, offsetX, offsetY);
+				// if (clientX >= currentTarget.offsetX) {
+				// 	console.log('실행됨');
+				// }
+			},
+			itemMouseup(e) {},
+
+			itemResize(item, direction) {},
 		},
 	};
 </script>
