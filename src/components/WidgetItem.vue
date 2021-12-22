@@ -1,14 +1,16 @@
 <template>
 	<div
 		class="item"
-		:style="{
-			width: this.itemInfo.width + 'px',
-			height: this.itemInfo.heigth + 'px',
-		}"
 		@mousemove="itemResize($event, 'bottom')"
 		@mouseleave="itemResizeLeave"
 	>
-		<div class="itemContent">
+		<div
+			class="itemContent"
+			:style="{
+				width: this.itemInfo.width + 'px',
+				height: this.itemInfo.heigth + 'px',
+			}"
+		>
 			{{ this.itemInfo.name }}
 		</div>
 		<p class="itemCtrl topCtrl" @mousedown="itemResizeClick"></p>
@@ -84,13 +86,14 @@
 		position: relative;
 		background: #666;
 		color: #fff;
-		margin: 10px;
-		padding: 20px;
 		user-select: none;
 		transition: 0.3s;
 		cursor: default;
 
 		/* resize: both; */
+	}
+	.itemContent {
+		padding: 20px;
 	}
 	.item.select {
 		animation: item 0.3s forwards;
