@@ -5,6 +5,9 @@
 			width: this.itemInfo.width + 'px',
 			height: this.itemInfo.heigth + 'px',
 		}"
+		@mousemove.stop="itemResize"
+		@mouseup.stop="itemResizeUp"
+		@mouseout.stop="itemResizeUp"
 	>
 		<div class="itemContent">
 			{{ this.itemInfo.name }}
@@ -12,16 +15,12 @@
 
 		<p
 			class="itemCtrl btmCtrl"
-			@mousedown="itemResizeDown($event, 'bottom')"
-			@mouseup="itemResizeUp"
-			@mouseout="itemResizeUp"
+			@mousedown.stop="itemResizeDown($event, 'bottom')"
 		></p>
 
 		<p
 			class="itemCtrl rightCtrl"
-			@mousedown="itemResizeDown($event, 'right')"
-			@mouseup="itemResizeUp"
-			@mouseout="itemResizeUp"
+			@mousedown.stop="itemResizeDown($event, 'right')"
 		></p>
 	</div>
 </template>
@@ -32,24 +31,25 @@
 			itemInfo: Object,
 		},
 		data() {
-			return {};
+			return {
+				defaultH: 0,
+				defaultY: 0,
+			};
 		},
 		methods: {
 			itemResizeDown({ target }, direction) {
-				console.log('시작');
 				const item = target.parentNode;
+
 				const data = {
+					drag: false,
 					clicked: true,
 					direction: direction,
 					resizeItem: item,
 				};
 
 				this.$store.dispatch('itemResizeClick', data);
-
-				// item.draggable = false;
 			},
-			itemResizeUp({ currentTarget }) {
-				// currentTarget.parentNode.draggable = true;
+			itemResizeUp() {
 				const data = {
 					clicked: false,
 					direction: '',
@@ -57,6 +57,39 @@
 				};
 
 				this.$store.dispatch('itemResizeLeave', data);
+			},
+
+			//사이즈조절
+			itemResize({ clientX, clientY }) {
+				//클릭이 안됐을 때, 리턴
+				if (!this.$store.state.itemResize.clicked) return;
+				if (this.$store.state.itemResize.direction === '') return;
+
+				const thisItem = this.$store.state.itemResize.resizeItem;
+
+				switch (this.$store.state.itemResize.direction) {
+					case 'bottom':
+						this.defaultH = thisItem.offsetHeight;
+						this.defaultY = thisItem.getBoundingClientRect().bottom;
+
+						const chgY = clientY - this.defaultY;
+						thisItem.style.height = `${this.defaultH + chgY}px`;
+
+						break;
+
+					case 'right':
+						this.defaultW = thisItem.offsetWidth;
+						this.defaultX = thisItem.getBoundingClientRect().right;
+
+						const chgX = clientX - this.defaultX;
+						thisItem.style.width = `${this.defaultW + chgX}px`;
+
+						break;
+
+					default:
+						console.log('direction이 없습니다.');
+						break;
+				}
 			},
 		},
 	};
@@ -105,7 +138,7 @@
 	.btmCtrl {
 		width: 100%;
 		height: 28px;
-		bottom: -14px;
+		bottom: -12px;
 		left: 0;
 		cursor: n-resize;
 	}
