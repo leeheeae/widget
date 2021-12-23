@@ -19,7 +19,7 @@
 		color: #42b983;
 	}
 	body {
-		background-image: url(./assets/img/bg04.jpg);
+		background-image: url(./assets/img/bg01.jpg);
 		background-size: cover;
 		background-position: center;
 	}
