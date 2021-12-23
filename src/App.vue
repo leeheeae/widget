@@ -1,18 +1,23 @@
 <template>
-	<Header></Header>
-	<router-view />
-	<div class="videoBg">
+	<top-menu></top-menu>
+	<div class="appContainer">
+		<side-menu></side-menu>
+		<router-view />
+	</div>
+	<!-- <div class="videoBg">
 		<video autoplay loop muted>
 			<source src="./assets/img/bg04.mp4" type="video/mp4" />
 		</video>
-	</div>
+	</div> -->
 </template>
 
 <script>
-	import Header from './components/common/Header.vue';
+	import TopMenu from './components/common/TopMenu.vue';
+	import SideMenu from './components/common/SideMenu.vue';
 	export default {
 		components: {
-			Header,
+			TopMenu,
+			SideMenu,
 		},
 	};
 </script>
@@ -46,5 +51,9 @@
 		background-size: cover;
 		z-index: -1;
 		pointer-events: none;
+	}
+	.appContainer {
+		display: flex;
+		height: calc(100vh - 76px);
 	}
 </style>

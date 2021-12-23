@@ -4,18 +4,15 @@
 		<div class="headerContent">
 			<div class="gnb">
 				<ul>
-					<router-link to="/">
-						<li class="active"><span>HOME</span></li></router-link
+					<router-link
+						v-for="item in gnb"
+						:key="item"
+						:to="{ path: item.path }"
 					>
-					<router-link to="/">
-						<li><span>Project</span></li></router-link
-					>
-					<router-link to="/">
-						<li><span>blog</span></li></router-link
-					>
-					<router-link to="/">
-						<li><span>contact</span></li></router-link
-					>
+						<li>
+							<span>{{ item.name }}</span>
+						</li>
+					</router-link>
 				</ul>
 			</div>
 			<div class="searchBox">
@@ -53,7 +50,32 @@
 </template>
 
 <script>
-	export default {};
+	export default {
+		name: 'topMenu',
+		data() {
+			return {
+				isActvie: false,
+				gnb: [
+					{
+						name: 'Home',
+						path: '/',
+					},
+					{
+						name: 'Project',
+						path: '/project',
+					},
+					{
+						name: 'Blog',
+						path: '/blog',
+					},
+					{
+						name: 'Contact',
+						path: '/contact',
+					},
+				],
+			};
+		},
+	};
 </script>
 
 <style scoped>
@@ -62,7 +84,7 @@
 		height: 76px;
 		display: flex;
 		align-items: center;
-		border-bottom: 1px solid rgba(143, 143, 143, 0.274);
+		border-bottom: 1px solid rgba(143, 143, 143, 0.3);
 		padding: 22px;
 		justify-content: space-between;
 	}
@@ -71,7 +93,6 @@
 		font-weight: 600;
 		font-style: italic;
 		color: #fff;
-		max-width: 240px;
 	}
 	.headerContent {
 		margin: 0 auto;
@@ -89,7 +110,7 @@
 	}
 	.headerContent .gnb span {
 		line-height: 70px;
-		padding: 0 2.6vw;
+		padding: 0 2.5vw;
 		font-size: 1rem;
 		font-weight: 400;
 		color: #fff;
@@ -97,8 +118,12 @@
 		white-space: nowrap;
 		transition: 0.3s;
 	}
+
+	.headerContent .gnb .router-link-exact-active li {
+		border-bottom: 3px solid #a3b0f7;
+	}
 	.headerContent .gnb li:hover span,
-	.headerContent .gnb li.active span {
+	.headerContent .gnb .router-link-exact-active li span {
 		opacity: 1;
 	}
 	.headerContent .searchBox {
