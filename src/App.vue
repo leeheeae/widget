@@ -1,6 +1,11 @@
 <template>
 	<Header></Header>
 	<router-view />
+	<div class="videoBg">
+		<video autoplay loop muted>
+			<source src="./assets/img/bg04.mp4" type="video/mp4" />
+		</video>
+	</div>
 </template>
 
 <script>
@@ -27,5 +32,19 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgba(16 18 27 / 40%);
+	}
+	.videoBg {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		min-width: 100%;
+		min-height: 100%;
+		width: 10000%;
+		height: 100vh;
+		background-size: cover;
+		z-index: -1;
+		pointer-events: none;
 	}
 </style>
