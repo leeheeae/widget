@@ -1,49 +1,23 @@
 <template>
 	<div class="side-menu">
-		<!--
-			
-				<router-link
-					:to="{ path: item.path }"
-					v-for="item in sideMenuInfo"
-					:key="item"
-				>
-					<div class="side-menu-item">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							height="24px"
-							viewBox="0 0 24 24"
-							width="24px"
-							v-html="item.icon"
-						></svg>
-						{{ item.name }}
-					</div>
-				</router-link>
+		<div v-for="direct in dir" :key="direct" class="side-wrap">
+			<div class="side-title">{{ direct }}</div>
 
-		<div class="side-wrap">
-			<template v-if="item.directory === 'Project' ? item.directory : ''">
-				<div class="side-title">Project</div>
-				<router-link
-					:to="{ path: item.path }"
-					v-for="item in sideMenuInfo"
-					:key="item"
-				>
-					<div class="side-menu-item">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							height="24px"
-							viewBox="0 0 24 24"
-							width="24px"
-							v-html="item.icon"
-						></svg>
-						{{ item.name }}
-					</div>
-				</router-link>
-			</template>
-		</div> -->
-
-		<div v-for="menu in sideMenuInfo" :key="menu">
-			<template v-for="direct in dir" :key="direct">
-				{{ direct }}
+			<template v-for="menu in sideMenuInfo" :key="menu">
+				<template v-if="menu.directory === direct">
+					<router-link :to="{ path: menu.path }">
+						<div class="side-menu-item">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								height="24px"
+								viewBox="0 0 24 24"
+								width="24px"
+								v-html="menu.icon"
+							></svg>
+							{{ menu.name }}
+						</div>
+					</router-link>
+				</template>
 			</template>
 		</div>
 	</div>
@@ -86,14 +60,9 @@
 		},
 		methods: {
 			dirArr(arr) {
-				let dir = [];
-				for (let item of arr) {
-					dir.push(item.directory);
-				}
-				let result = [...new Set(dir)];
-
-				this.dir = result;
-				return result;
+				const dir = arr.map((item) => item.directory);
+				this.dir = [...new Set(dir)];
+				return this.dir;
 			},
 		},
 	};
