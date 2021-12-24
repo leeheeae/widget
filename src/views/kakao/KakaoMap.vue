@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<content-title
-			:title="'Kakao Map API'"
+			:title="'카카오 지도 API'"
 			:subTitle="'kakao API를 이용하여 REST API 방식의 구현 이해하기'"
 		></content-title>
 		<kakao-map-view></kakao-map-view>
@@ -9,8 +9,8 @@
 </template>
 
 <script>
-	import ContentTitle from '../components/common/ContentTitle.vue';
-	import KakaoMapView from '../components/kakao/KakaoMapView.vue';
+	import ContentTitle from '../../components/common/ContentTitle.vue';
+	import KakaoMapView from '../../components/kakao/KakaoMapView.vue';
 	export default {
 		components: {
 			ContentTitle,
