@@ -2,7 +2,9 @@
 	<top-menu></top-menu>
 	<div class="appContainer">
 		<side-menu></side-menu>
-		<router-view />
+		<main class="main">
+			<router-view />
+		</main>
 	</div>
 	<!-- <div class="videoBg">
 		<video autoplay loop muted>
@@ -37,6 +39,11 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgba(16 18 27 / 40%);
+	}
+	.main {
+		width: calc(100% - 240px);
+		padding: 4vw 5vw;
+		background: rgba(16 18 27 / 25%);
 	}
 	.videoBg {
 		position: fixed;
