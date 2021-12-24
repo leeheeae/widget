@@ -79,7 +79,7 @@
 		width: 240px;
 		height: 100%;
 		padding: 24px 26px;
-		border-right: 1px solid rgba(143, 143, 143, 0.3);
+		border-right: 1px solid rgba(143, 143, 143, 0.4);
 	}
 	.side-title {
 		color: #414f72;
@@ -112,10 +112,10 @@
 	.side-menu-item:hover {
 		background: rgba(0, 0, 0, 0.3);
 	}
-	.side-wrap .router-link-exact-active .side-menu-item {
+	.side-wrap .router-link-active .side-menu-item {
 		background: rgba(0, 0, 0, 0.3);
 	}
-	.side-wrap .router-link-exact-active .side-menu-item svg {
+	.side-wrap .router-link-active .side-menu-item svg {
 		fill: #fff;
 	}
 </style>

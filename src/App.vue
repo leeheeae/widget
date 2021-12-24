@@ -42,8 +42,8 @@
 	}
 	.main {
 		width: calc(100% - 240px);
-		padding: 4vw 5vw;
-		background: rgba(16 18 27 / 25%);
+		/* padding: 4vw 5vw; */
+		/* background: rgba(16 18 27 / 25%); */
 	}
 	.videoBg {
 		position: fixed;

@@ -84,7 +84,7 @@
 		height: 76px;
 		display: flex;
 		align-items: center;
-		border-bottom: 1px solid rgba(143, 143, 143, 0.3);
+		border-bottom: 1px solid rgba(143, 143, 143, 0.4);
 		padding: 22px;
 		justify-content: space-between;
 	}
